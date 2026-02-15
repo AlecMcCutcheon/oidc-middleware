@@ -1,6 +1,6 @@
 # Technitium DNS OIDC Middleware — sanitized reference
 
-Replace placeholder config (or set env vars) before use. See the main [app-investigation wiki](https://github.com/AlecMcCutcheon/oidc-middleware/blob/main/README.md) for context.
+Replace placeholder config (or set env vars) before use. See the main [App Investigation Wiki](https://github.com/AlecMcCutcheon/oidc-middleware/blob/main/README.md) for context.
 
 **Example modifications:** `example-auth-modifications.js` and `example-main-modifications.css` contain only the modifications we add: (1) Inject OIDC "Login With SSO" section; form class swap to `form-login-stacked`; placeholder and panel title text; inline feedback divs under username/password; Cloudflare Turnstile widget and script; form submit prevented and routed to `login()`. (2) CSS for the OIDC section, hide Forgot Password link, full-width Login button, stacked form layout, hide duplicate dividers, dark-mode panel. (3) Override `logout()` so OIDC users go to middleware `/logout`, form-login users use the app's API logout. The full app serves `/js/auth.js` and `/css/main.css` from the middleware; our copy is the app's original plus these injections and the logout override.
 
