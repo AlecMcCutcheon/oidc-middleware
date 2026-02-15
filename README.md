@@ -1,6 +1,6 @@
 # App Investigation Wiki: Integrating an App with OIDC/SSO via Middleware
 
-This guide is for **integrating a target application with OpenID Connect (OIDC) and single sign-on (SSO)** by running a **middleware in front of the app behind a reverse proxy**. The middleware handles the OIDC flow (redirect to IdP, callback, token exchange) and then logs the user into the app using the app’s own APIs and session storage.
+This guide is for **integrating a target web application with OpenID Connect (OIDC) and single sign-on (SSO)** by running a **middleware in front of the app behind a reverse proxy**. The middleware handles the OIDC flow (redirect to IdP, callback, token exchange) and then logs the user into the app using the app’s own APIs and session storage.
 
 Successful integration usually depends on **two things**:
 
