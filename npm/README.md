@@ -1,10 +1,10 @@
 # NPM (Nginx Proxy Manager) OIDC Middleware — sanitized reference
 
-Replace placeholder config (or set env vars) before use. See the main [app-investigation wiki](../app-investigation-wiki.md) for context.
+Replace placeholder config (or set env vars) before use. See the main [App Investigation Wiki](https://github.com/AlecMcCutcheon/oidc-middleware/blob/main/README.md) for context.
 
 **Example modifications:** `example-modifications.js` and `example-modifications.css` show the pattern we use: (1) hide the app's React login form and render our own form that POSTs to the middleware's `/api/tokens` proxy, and (2) override the app's logout link so OIDC users go to `/logout` (middleware clears token and redirects to IdP end-session) and form-login users get localStorage cleared and a hard refresh. The real deployment overrides the app's built bundle (e.g. `index-*.js`), not a separate file; we do not include `login.js` or `UserPortalLogin.js` (those are for another app).
 
-**Temporary (interstitial) pages:** The middleware serves short-lived HTML pages to apply or clear tokens in the browser (see [wiki §3.7](../app-investigation-wiki.md#37-temporary-interstitial-pages)). **NPM** uses: (1) **OIDC callback success** — page that clears `authentications` and `oidc_login`, sets the new token and `oidc_login` in localStorage, sets the OIDC cookie, then redirects to `state`; (2) **Logout** — page that removes `authentications` from localStorage, deletes the OIDC cookie, then redirects to the IdP end-session URL.
+**Temporary (interstitial) pages:** The middleware serves short-lived HTML pages to apply or clear tokens in the browser. **NPM** uses: (1) **OIDC callback success** — page that clears `authentications` and `oidc_login`, sets the new token and `oidc_login` in localStorage, sets the OIDC cookie, then redirects to `state`; (2) **Logout** — page that removes `authentications` from localStorage, deletes the OIDC cookie, then redirects to the IdP end-session URL.
 
 ---
 
