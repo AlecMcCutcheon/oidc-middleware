@@ -1,0 +1,148 @@
+/**
+ * Example: CSS we add when serving the Crafty Controller app through the middleware.
+ * The middleware mounts static/ and serves this file (e.g. /static/assets/css/crafty.css)
+ * so the app loads our overrides. We hide in-app user management and MFA settings
+ * (managed by OIDC), add "Managed by" badges, and make email/username read-only.
+ *
+ * The full file in the project also includes base Crafty layout/utility CSS;
+ * only our custom blocks are shown below.
+ */
+
+/* --- MFA warning hiding (in-app prompts we don't use) --- */
+#mfa-container.mfa-warn-text.mfa-warn,
+span.badge.mfa-warn-badge.mfa-warn {
+    display: none !important;
+}
+
+/* --- Navigation: hide Discord, credits, contribute, add user, edit OTP --- */
+li.nav-item a.nav-link[href="https://discord.gg/9VJPhCE"],
+li.nav-item a.nav-link[href="/panel/credits"],
+li.nav-item a.nav-link[href="/panel/contribute"],
+li.nav-item a.nav-link[href^="/panel/edit_user_otp"],
+li.nav-item a.nav-link[href="/panel/add_user"],
+a.nav-link[href="/panel/add_user"] {
+    display: none !important;
+}
+
+/* --- "Managed by OIDC Middleware" badge next to Users heading --- */
+h4.card-title:has(i.fas.fa-users)::after {
+    content: "Managed by OIDC Middleware" !important;
+    display: inline-block !important;
+    color: var(--base-text, #ffffff) !important;
+    font-size: 0.75rem !important;
+    padding: 0.375rem 0.75rem !important;
+    background-color: rgba(23, 162, 184, 0.1) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(23, 162, 184, 0.3) !important;
+    margin-left: 0.75rem !important;
+}
+
+/* --- User management: hide username/password change and MFA settings --- */
+button.btn.edit_user,
+button.btn.edit_password,
+button[class*="edit_user"],
+button[class*="edit_password"],
+button[data-translate="User Name"],
+button[data-translate1="New Password"],
+span.edit_password.clickable,
+span.edit_user.clickable,
+span#renewCodes,
+span[data-translate="Please copy your backup codes."] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Hide MFA/passkey form groups and their containers */
+label.form[for="enable_otp_skew"],
+label.form[for="enable_passkey_auth"],
+label.form[for="reset_secrets_on_next_boot"],
+label.form[for="superMFA"],
+label.form[for="passkey_rp_name"],
+label.form[for="enable_otp_skew"] ~ *,
+label.form[for="enable_passkey_auth"] ~ *,
+div.form-group:has(label[for="enable_otp_skew"]),
+div.form-group:has(label[for="enable_passkey_auth"]),
+div.form-group:has(label[for="superMFA"]),
+div.form-group:has(label[for="passkey_rp_name"]) {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Blockquote badge in User Config */
+.card-body blockquote.blockquote::after {
+    content: "User is managed by OIDC Middleware" !important;
+    display: inline-block !important;
+    font-size: 0.75rem !important;
+    padding: 0.375rem 0.75rem !important;
+    background-color: rgba(23, 162, 184, 0.1) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(23, 162, 184, 0.3) !important;
+}
+
+/* --- Email field: read-only label and input styling --- */
+label.form-label[for="email"] small.text-muted { display: none !important; }
+label.form-label[for="email"] {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+label.form-label[for="email"]::before {
+    content: "Email - Managed by OIDC Middleware (Read Only)" !important;
+    color: var(--base-text, #ffffff) !important;
+    font-size: 0.875rem !important;
+    display: inline-block !important;
+}
+input.form-control[name="email"][id="email"],
+input#email.form-control[name="email"] {
+    pointer-events: none !important;
+    background-color: rgba(23, 162, 184, 0.1) !important;
+    border: 1px solid rgba(23, 162, 184, 0.3) !important;
+    cursor: not-allowed !important;
+}
+
+/* --- Username field: read-only (UUID hash) --- */
+label.form-label[for="username"] small.text-muted { display: none !important; }
+label.form-label[for="username"] {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+label.form-label[for="username"]::before {
+    content: "UUID Hash - Managed by OIDC Middleware (Read Only)" !important;
+    color: var(--base-text, #ffffff) !important;
+    font-size: 0.875rem !important;
+    display: inline-block !important;
+}
+input.form-control[name="username"][id="username"],
+input#username.form-control[name="username"] {
+    pointer-events: none !important;
+    background-color: rgba(23, 162, 184, 0.1) !important;
+    border: 1px solid rgba(23, 162, 184, 0.3) !important;
+    cursor: not-allowed !important;
+    text-transform: uppercase !important;
+}
+
+/* --- User dropdown header: badge style, hide "Roles:" label, prefix UUID --- */
+.dropdown-header.text-center {
+    background-color: transparent !important;
+    border: 1px solid rgba(23, 162, 184, 0.3) !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+}
+.dropdown-header.text-center p.mb-1.mt-3.font-weight-semibold::before {
+    content: "UUID Hash: " !important;
+}
+.dropdown-header.text-center p.font-weight-light.text-muted.mb-0:nth-of-type(2) {
+    display: none !important;
+}
+.dropdown-header.text-center p.font-weight-light.text-muted.mb-0:nth-of-type(3)::before {
+    content: "Roles: " !important;
+}

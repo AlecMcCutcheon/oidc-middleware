@@ -1,0 +1,135 @@
+/**
+ * Example: CSS we add for the OIDC login section and related tweaks (Technitium).
+ * Append or merge these with the app's main.css when serving your overridden stylesheet.
+ */
+
+/* OIDC Login Section */
+.pageLogin .panel-body > .oidc-login-section {
+    margin-top: 35px;
+    padding-top: 0;
+    text-align: center;
+    border-top: none !important;
+}
+
+.oidc-login-divider {
+    position: relative;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.oidc-login-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.oidc-login-divider span {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0 18px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.oidc-login-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.oidc-login-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.oidc-login-button .icon {
+    margin-right: 12px;
+    display: inline-flex;
+}
+
+.oidc-login-button .icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+}
+
+.oidc-login-section .description {
+    margin-top: 15px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+}
+
+/* Hide duplicate dividers / borders next to form */
+.pageLogin .panel-body > hr,
+.pageLogin .panel-body form + hr,
+.pageLogin .panel-body form::after,
+.pageLogin .panel-body > .oidc-login-divider:not(.oidc-login-section .oidc-login-divider) {
+    display: none !important;
+}
+.pageLogin .panel-body form {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Stacked form layout (labels on top, full width) — used with form-login-stacked class from JS */
+.pageLogin .form-login-stacked .form-group {
+    display: block;
+}
+.pageLogin .form-login-stacked .form-group .control-label {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    padding-left: 0 !important;
+    margin-bottom: 6px;
+}
+.pageLogin .form-login-stacked .form-group .col-sm-8,
+.pageLogin .form-login-stacked .form-group .col-sm-4 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    float: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Hide Forgot Password link; make Login button full width */
+.pageLogin a[data-target="#modalForgotPassword"] {
+    display: none !important;
+}
+.pageLogin .form-group:has(#btnLogin) > .col-sm-4:has(a[data-target="#modalForgotPassword"]) {
+    display: none !important;
+}
+.pageLogin .form-group:has(#btnLogin) > .col-sm-offset-3.col-sm-4 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+}
+.pageLogin #btnLogin {
+    width: 100% !important;
+}
+
+/* Dark mode login panel */
+.dark-mode .pageLogin .panel {
+    background: rgba(44, 44, 46, 0.4);
+}

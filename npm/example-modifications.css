@@ -1,0 +1,29 @@
+/**
+ * Example: CSS for the custom login form we show on NPM when we hide the app's form.
+ * Use with example-modifications.js pattern. Adjust selectors to match the app's layout.
+ */
+
+#oidc-npm-login-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+}
+
+#oidc-npm-login-form form input {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+}
+
+#oidc-npm-login-form form button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+#oidc-npm-login-form #cf-turnstile-widget {
+    margin: 0.75rem 0;
+    display: flex;
+    justify-content: center;
+}
