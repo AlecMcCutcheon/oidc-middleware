@@ -202,6 +202,30 @@ Flow then is:
 
 This allows SSO (user never types app password) but does not allow “admin to issue user token”; the app only supports “login with password”. So from the IdP side it’s SSO-only in the sense that you never ask the user for the app password in the SSO flow.
 
+### 3.7 Temporary (interstitial) pages
+
+Because the middleware cannot set **localStorage** from the server, it often serves **short-lived HTML pages** that run a small script in the browser and then redirect. The user may see a brief "Logging in..." or "Logging out..." screen (often with a dark or minimal body so the flash is unobtrusive). These are **temporary interstitial pages** used only to apply tokens, clear state, or hand off to the IdP.
+
+**Common patterns:**
+
+| Purpose | What the page does | When it's used |
+|--------|---------------------|----------------|
+| **OIDC callback (success)** | Script clears any existing app token and OIDC flag in localStorage; writes the new app token (and optional `oidc_login` flag for logout detection); then `window.location.href = state` to send the user to their original destination. The response also sets an HttpOnly OIDC cookie (e.g. `oidc_session`) so the middleware can read the IdP session later. | After the middleware exchanges the authorization code for tokens and obtains an app session (e.g. via "login as user" or password + login). |
+| **Logout** | Script removes app token and OIDC flag from localStorage; then redirects to the IdP's end-session URL (e.g. Authentik `.../end-session/`). The response deletes the OIDC (and any app) cookies. | When the user clicks logout and the app's logout was overridden to hit the middleware's `/logout`. |
+| **Post-login redirect (cookie-based apps)** | Minimal HTML with a short `setTimeout` then `window.location.href = next_url`. Gives the browser a moment to persist the cookie before the app loads the next page. | Used by some integrations (e.g. Crafty) when the app expects a cookie and the destination is a dashboard path; avoids race conditions. |
+| **Post-MFA redirect** | Same idea: brief delay then redirect to `/` or `next_url` after the middleware has set the app cookie following successful MFA verification. | After the user submits TOTP/backup code on the middleware-hosted MFA form and the middleware logs them in and sets the cookie. |
+
+**Why HTML instead of a 302 redirect?**
+
+- **Callback:** The app token must be written to **localStorage** (or the app would need to accept token via cookie or URL, which many don't). Only a page that runs in the browser can do that; then the script redirects.
+- **Logout:** The app may have put the token in localStorage. A 302 to the IdP would not clear that. So the middleware serves a page that clears localStorage (and optionally cookies via the response), then redirects to the IdP end-session URL.
+
+**Implementation notes:**
+
+- Keep the HTML minimal (inline `<style>` and `<script>`; no external resources) so the page loads and runs quickly.
+- Escape token and redirect URL when injecting into the script (e.g. JSON-encode for JS) to avoid XSS.
+- Set or delete cookies on the **response** that serves the HTML (e.g. `response.set_cookie` / `response.delete_cookie`); the script handles localStorage only.
+
 ---
 
 ## 4. Summary Table: What Exists vs What You Can Do
