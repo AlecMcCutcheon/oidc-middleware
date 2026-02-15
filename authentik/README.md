@@ -2,8 +2,6 @@
 
 API to add IPs to per-app `allowed_ips.conf` with token auth; used with Authentik policies for local-only apps. Set `AUTH_TOKEN` and `NPM_RELOAD_URL` (or env). See the main [App Investigation Wiki](https://github.com/AlecMcCutcheon/oidc-middleware/blob/main/README.md) Bonus section for setup.
 
-**Example modifications:** This service has no frontend (API only). `example-modifications.js` and `example-modifications.css` are placeholders so the docs layout is consistent.
-
 ---
 
 ## Docker setup
