@@ -1,10 +1,10 @@
 # Crafty OIDC Middleware — sanitized reference
 
-Replace placeholder config (or set env vars) before use. See the main [app-investigation wiki](../app-investigation-wiki.md) for context.
+Replace placeholder config (or set env vars) before use. See the main [App Investigation Wiki](https://github.com/AlecMcCutcheon/oidc-middleware/blob/main/README.md) for context.
 
 **Example modifications:** We do not inject JS into the Crafty app. We use a `/login` path override and serve our own MFA page (with inline CSS and script). The middleware mounts `static/` and serves our `crafty.css`, which the app loads — we use it to hide in-app user management (add user, edit username/password, MFA/passkey settings), add "Managed by OIDC Middleware" badges, and make email/username read-only. Logout is only exposed via the "Cancel and log out" link on the MFA page (`href="/logout"`). `example-modifications.css` shows our CSS overrides for the app UI; `example-modifications.js` shows the MFA page inline script excerpt and notes that no app JS is overridden.
 
-**Temporary (interstitial) pages:** The middleware serves short-lived HTML pages to apply cookies or redirect after a short delay (see [wiki §3.7](../app-investigation-wiki.md#37-temporary-interstitial-pages)). **Crafty** uses: (1) **Post-login redirect** — after setting the Crafty cookie, for dashboard paths we serve a minimal page with a brief `setTimeout` then `window.location.href = next_url` so the cookie is persisted before the app loads; (2) **Post-MFA redirect** — after successful MFA verify we set the Crafty cookie and serve a similar delay-then-redirect page to `/`. Logout is a direct 302 to the IdP end-session URL (no interstitial; cookie-based only).
+**Temporary (interstitial) pages:** The middleware serves short-lived HTML pages to apply cookies or redirect after a short delay. **Crafty** uses: (1) **Post-login redirect** — after setting the Crafty cookie, for dashboard paths we serve a minimal page with a brief `setTimeout` then `window.location.href = next_url` so the cookie is persisted before the app loads; (2) **Post-MFA redirect** — after successful MFA verify we set the Crafty cookie and serve a similar delay-then-redirect page to `/`. Logout is a direct 302 to the IdP end-session URL (no interstitial; cookie-based only).
 
 ---
 
